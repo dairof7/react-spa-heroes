@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate, Navigate, useParams } from 'react-router-dom'
 import { getHeroById } from '../helpers/getHeroById'
 
@@ -6,7 +6,9 @@ export const HeroPage = () => {
   const navigate = useNavigate()
   console.log(navigate)
   const { id } = useParams()
-  const hero = getHeroById( id )
+  // save in cache hero value if id does't change
+  const hero = useMemo( () => getHeroById( id ), [id])
+  
   if ( !hero ) {
     return <Navigate to="/marvel" />
   }
@@ -21,7 +23,7 @@ export const HeroPage = () => {
           <img 
             src={ `/assets/heroes/${ id }.jpg` } 
             alt={ hero.superhero }
-            className="img-thumbnail animate__animated animate__fadeInLeft"
+            className="img-thumbnail animate__animated animate__jackInTheBox"
           />
         </div>
 
